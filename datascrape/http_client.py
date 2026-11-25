@@ -280,7 +280,11 @@ class ResilientHTTPClient:
                     timeout=self.timeout,
                     verify=self.verify_ssl,
                 )
-            except (requests.Timeout, requests.ConnectionError, requests.ChunkedEncodingError) as exc:
+            except (
+                requests.exceptions.Timeout,
+                requests.exceptions.ConnectionError,
+                requests.exceptions.ChunkedEncodingError,
+            ) as exc:
                 if attempt >= self.max_retries:
                     logger.exception("Network request exhausted retries: %s %s", method, safe_url)
                     raise RuntimeError(f"Network error for {safe_url}: {type(exc).__name__}") from exc
