@@ -51,7 +51,7 @@ jobs:
       - name: Container smoke test
         run: docker run --rm datascrape:ci list-reports
       - name: Trivy vulnerability scan
-        uses: aquasecurity/trivy-action@0.30.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: datascrape:ci
           format: table
