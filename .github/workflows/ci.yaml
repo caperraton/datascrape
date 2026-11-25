@@ -60,7 +60,7 @@ jobs:
           vuln-type: os,library
           severity: CRITICAL,HIGH
       - name: Generate SBOM
-        uses: anchore/sbom-action@v0.17.5
+        uses: anchore/sbom-action@v0.24.3
         with:
           image: datascrape:ci
           artifact-name: datascrape-sbom.spdx.json
