@@ -137,8 +137,23 @@ class GitHubClient(VCSClient):
                 resource.get("limit", "?"),
                 reset if reset is not None else "?",
             )
-            if remaining is not None and reset is not None and int(remaining) <= self.rate_buffer:
-                wait = max(0.0, float(reset) - time.time() + 1.0)
+            # Repository and organization discovery use the core REST quota.
+            # Other resource pools are independent; merely observing a small or
+            # exhausted specialized quota must not block unrelated requests.
+            # The HTTP transport still handles throttling on actual requests.
+            if name != "core" or remaining is None or reset is None:
+                continue
+            try:
+                remaining_count = int(remaining)
+                limit = int(resource["limit"]) if resource.get("limit") is not None else None
+                reset_epoch = float(reset)
+            except (TypeError, ValueError):
+                logger.debug("Ignoring invalid GitHub rate-limit metadata for %s", name)
+                continue
+            if limit is not None and limit > 0 and remaining_count >= limit:
+                continue
+            if remaining_count <= self.rate_buffer:
+                wait = max(0.0, reset_epoch - time.time() + 1.0)
                 if wait > 0:
                     logger.warning(
                         "GitHub %s quota is low (%s remaining); shared workers will wait for reset at %s",
