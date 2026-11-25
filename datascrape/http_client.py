@@ -280,6 +280,14 @@ class ResilientHTTPClient:
                     timeout=self.timeout,
                     verify=self.verify_ssl,
                 )
+            except requests.exceptions.SSLError as exc:
+                # SSL errors inherit from ConnectionError. Handle them first so
+                # certificate failures do not consume the transient retry budget.
+                logger.error("TLS verification/handshake failed: %s %s; check the trusted CA bundle (--ca-bundle or REQUESTS_CA_BUNDLE)", method, safe_url)
+                raise RuntimeError(
+                    f"TLS connection failed for {safe_url}. Check your trusted CA bundle "
+                    "(--ca-bundle or REQUESTS_CA_BUNDLE) and proxy configuration."
+                ) from exc
             except (
                 requests.exceptions.Timeout,
                 requests.exceptions.ConnectionError,

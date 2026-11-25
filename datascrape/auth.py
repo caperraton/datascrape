@@ -77,7 +77,17 @@ class GitHubAppTokenProvider:
                         timeout=self.timeout,
                         verify=self.verify_ssl,
                     )
-                except (requests.Timeout, requests.ConnectionError, requests.ChunkedEncodingError):
+                except requests.exceptions.SSLError as exc:
+                    logger.error("GitHub App token endpoint TLS failure; check the trusted CA bundle (--ca-bundle or REQUESTS_CA_BUNDLE)")
+                    raise RuntimeError(
+                        "GitHub App token endpoint TLS connection failed. Check your trusted CA bundle "
+                        "(--ca-bundle or REQUESTS_CA_BUNDLE) and proxy configuration."
+                    ) from exc
+                except (
+                    requests.exceptions.Timeout,
+                    requests.exceptions.ConnectionError,
+                    requests.exceptions.ChunkedEncodingError,
+                ):
                     if attempt == 5:
                         raise
                     delay = min(60.0, 2.0 * (2**attempt)) + random.uniform(0.0, 1.0)
