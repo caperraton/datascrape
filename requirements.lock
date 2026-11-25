@@ -1,0 +1,15 @@
+# Runtime dependency pins captured for the Datascrape 1.1.0 modernization build.
+# This is a pip-compatible, fully pinned runtime dependency set; regenerate when
+# updating pyproject.toml dependencies. Development tools are managed by [dev].
+certifi==2026.5.20
+cffi==2.0.0
+charset-normalizer==3.4.7
+cryptography==46.0.4
+et-xmlfile==2.0.0
+idna==3.17
+openpyxl==3.1.5
+pycparser==3.0
+PyJWT==2.13.0
+requests==2.32.5
+setuptools==82.0.1
+urllib3==2.7.0

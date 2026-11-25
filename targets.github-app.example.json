@@ -1,0 +1,12 @@
+[
+  {
+    "target": "github",
+    "type": "cloud",
+    "url": "https://api.github.com",
+    "auth_type": "github_app",
+    "app_id": "ENV:GH_APP_ID",
+    "installation_id": "ENV:GH_INSTALLATION_ID",
+    "private_key": "ENV:GH_APP_PRIVATE_KEY_FILE",
+    "all_orgs": true
+  }
+]

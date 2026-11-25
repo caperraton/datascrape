@@ -1,0 +1,18 @@
+[
+  {
+    "target": "github",
+    "type": "cloud",
+    "url": "https://api.github.com",
+    "token": "ENV:GH_TOKEN",
+    "auth_type": "bearer",
+    "all_orgs": true
+  },
+  {
+    "target": "bitbucket",
+    "type": "cloud",
+    "url": "https://api.bitbucket.org/2.0",
+    "token": "ENV:BB_TOKEN",
+    "auth_type": "bearer",
+    "org": "workspace-one"
+  }
+]

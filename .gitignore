@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+
+# Local credentials and configuration
+.env
+.env.*.local
+*.pem
+*.key
+
+# Generated data and operational artifacts
+logs/
+reports/
+runs/
+backups/
+data/
+*.db
+*.sqlite
+*.sqlite3
+*.db-wal
+*.db-shm
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/

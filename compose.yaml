@@ -1,0 +1,30 @@
+services:
+  datascrape:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: datascrape:local
+    user: "${DATASCRAPE_UID:-1000}:${DATASCRAPE_GID:-1000}"
+    init: true
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    pids_limit: 256
+    mem_limit: 2g
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=128m
+    env_file:
+      - .env
+    environment:
+      PYTHONUNBUFFERED: "1"
+    volumes:
+      - ./data:/data
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - ./runs:/app/runs
+      - ./backups:/app/backups
+      - ./config:/config:ro
+      - ./certs:/certs:ro
+    command: ["list-reports"]

@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "datascrape"
+version = "1.1.0"
+description = "Resilient multi-VCS audit, security, governance, and engineering observability CLI"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "Datascrape contributors" }]
+keywords = ["github", "bitbucket", "audit", "security", "observability", "governance"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "requests>=2.31.0,<3.0.0",
+  "PyJWT[crypto]>=2.8.0,<3.0.0",
+  "openpyxl>=3.1.0,<4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0,<10.0",
+  "ruff>=0.5,<1.0",
+  "bandit>=1.7,<2.0",
+  "pip-audit>=2.7,<3.0",
+  "pre-commit>=3.7,<5.0",
+  "build>=1.2,<2.0",
+]
+
+[project.scripts]
+datascrape = "datascrape.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["datascrape*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+ignore = ["E501", "F401"]
+
+[tool.bandit]
+exclude_dirs = ["tests"]
+skips = ["B101"]
